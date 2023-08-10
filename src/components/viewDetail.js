@@ -1,4 +1,5 @@
 import React from 'react';
+import '../App.css';
 
 const viewStyles = {
   card: {
@@ -28,13 +29,19 @@ const viewStyles = {
     height: '40px',
   },
   button:{
-    background: 'rgb(70, 160, 70)',
-    marginTop: '20px',
-    padding: '10px 0',
-    width: '100%',
+    position: 'absolute',
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    background: 'rgba(200, 200, 200,0.9)',
+    width: '30px',
+    height: '30px',
     border: '0',
-    boxShadow: '5px 5px 5px 0px rgba(0,0,0,0.5)',
-    borderRadius:'5px',
+    boxShadow: '3px 3px 3px 0px rgba(0,0,0,0.3)',
+    borderRadius:'50%',
+    fontSize:'16px',
+    transform: 'translateX(230px) translateY(-120px)',
+    cursor:'pointer',
   },
 };
 
@@ -43,6 +50,17 @@ function ViewDetail() {
     <div style={viewStyles.card}>
       <table style={viewStyles.viewTable} className="viewtable">
         <thead>
+          <tr>
+            <th colSpan={2}
+              style={{
+                paddingLeft:'10px',
+                textTransform: 'uppercase',
+                color:'white',
+                fontSize:'24px',
+                textAlign:'left',
+              }}
+            >Student's Detail</th> 
+          </tr>
           <tr>
             <th style={viewStyles.th}>Name</th>
             <td style={viewStyles.td}>Punit Maharjan</td>
@@ -65,7 +83,11 @@ function ViewDetail() {
           </tr>
         </thead>
       </table>
-      <button style={viewStyles.button}>Back</button>
+      <button style={viewStyles.button} 
+      // onClick={}
+      >
+        ✖
+      </button>
     </div>
   );
 }
