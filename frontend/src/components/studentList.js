@@ -1,4 +1,6 @@
-import React from 'react';
+import React  from 'react';
+import axios from 'axios'
+import { BASE_URL } from '../utils/constants';
 
 const studentListStyles = {
   rightContainer: {
@@ -19,11 +21,10 @@ const studentListStyles = {
     textAlign: 'center',
   },
   tr: {
-    height: '40px',
     textAlign: 'center',
     backgroundColor: '#ccc4',
     borderRadius: '20px',
-    height: '50px',
+    height: '60px',
     borderBottom: '1px solid #eee4',
 
   },
@@ -53,7 +54,17 @@ const studentListStyles = {
   },
 };
 
-function StudentList() {
+function StudentList({ getEditStudent, studentsData, setUpdateList }) {
+
+  const getRemoveId = (id) => {
+    axios
+      .delete(`${BASE_URL}/delete/${id}`)
+      .then((res) => {
+        setUpdateList();
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div style={studentListStyles.rightContainer}>
       <table style={studentListStyles.table} border="0" cellSpacing="0">
@@ -69,32 +80,22 @@ function StudentList() {
           </tr>
         </thead>
         <tbody>
-          <tr style={studentListStyles.tr}>
-            <td>id</td>
-            <td>Punit Maharjan</td>
-            <td>22</td>
-            <td>punitsaur12@gmail.com</td>
-            <td>9808894725</td>
-            <td>BSc CSIT</td>
-            <td style={studentListStyles.actionButtons}>
-              <button style={{ ...studentListStyles.button, ...studentListStyles.viewButton }}>View</button>
-              <button style={{ ...studentListStyles.button, ...studentListStyles.editButton }}>Edit</button>
-              <button style={{ ...studentListStyles.button, ...studentListStyles.deleteButton }}>Delete</button>
-            </td>
-          </tr>
-          <tr style={studentListStyles.tr}>
-            <td>id</td>
-            <td>Punit Maharjan</td>
-            <td>22</td>
-            <td>punitsaur12@gmail.com</td>
-            <td>9808894725</td>
-            <td>BSc CSIT</td>
-            <td style={studentListStyles.actionButtons}>
-              <button style={{ ...studentListStyles.button, ...studentListStyles.viewButton }}>View</button>
-              <button style={{ ...studentListStyles.button, ...studentListStyles.editButton }}>Edit</button>
-              <button style={{ ...studentListStyles.button, ...studentListStyles.deleteButton }}>Delete</button>
-            </td>
-          </tr>
+          { studentsData !== [] && studentsData.map( ( student ) => {
+            return (
+              <tr style={studentListStyles.tr} key={student._id}>
+                <td>{student._id.slice(0,5)}</td>
+                <td>{student.name}</td>
+                <td>{student.age}</td>
+                <td>{student.email}</td>
+                <td>{student.phone}</td>
+                <td>{student.faculty}</td>
+                <td style={studentListStyles.actionButtons}>
+                  <button style={{ ...studentListStyles.button, ...studentListStyles.editButton }} onClick={() => getEditStudent( student )} >Edit</button>
+                  <button style={{ ...studentListStyles.button, ...studentListStyles.deleteButton }} onClick={() => getRemoveId( student._id )} >Delete</button>
+                </td>
+              </tr>
+            )
+          } ) }
         </tbody>
       </table>
     </div>
